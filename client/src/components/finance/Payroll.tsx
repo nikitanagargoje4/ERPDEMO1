@@ -367,7 +367,7 @@ export function Payroll() {
             </button>
             
             <button 
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-700 text-white font-semibold rounded-lg hover:from-orange-700 hover:to-amber-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl"
               onClick={() => setShowAddEmployeeModal(true)}
             >
               <Plus className="h-5 w-5 mr-2" />
@@ -499,7 +499,7 @@ export function Payroll() {
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-start justify-center p-2 sm:p-4">
           <div className="relative mx-auto w-full max-w-3xl my-4 sm:my-8 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
             {/* Header with gradient background */}
-            <div className="bg-gradient-to-r from-orange-600 to-amber-700 px-4 sm:px-6 py-3 sm:py-4">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-4 sm:px-6 py-3 sm:py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <div className="bg-white bg-opacity-20 rounded-lg p-1.5 sm:p-2">
@@ -507,7 +507,7 @@ export function Payroll() {
                   </div>
                   <div>
                     <h3 className="text-lg sm:text-xl font-bold text-white">Add New Employee</h3>
-                    <p className="text-orange-100 text-xs sm:text-sm hidden sm:block">Add a new employee to the payroll system</p>
+                    <p className="text-blue-100 text-xs sm:text-sm hidden sm:block">Add a new employee to the payroll system</p>
                   </div>
                 </div>
                 <button
@@ -525,7 +525,7 @@ export function Payroll() {
                 {/* Personal Information Section */}
                 <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
                   <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
-                    <Users className="h-4 w-4 mr-2 text-orange-600" />
+                    <Users className="h-4 w-4 mr-2 text-blue-600" />
                     Personal Information
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -539,7 +539,7 @@ export function Payroll() {
                         name="name"
                         value={employeeForm.name}
                         onChange={handleInputChange}
-                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.name ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Enter full name"
@@ -558,7 +558,7 @@ export function Payroll() {
                         name="email"
                         value={employeeForm.email}
                         onChange={handleInputChange}
-                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.email ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Enter email address"
@@ -571,7 +571,7 @@ export function Payroll() {
                 {/* Job Information Section */}
                 <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
                   <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
-                    <Briefcase className="h-4 w-4 mr-2 text-amber-600" />
+                    <Briefcase className="h-4 w-4 mr-2 text-blue-600" />
                     Job Information
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -584,7 +584,7 @@ export function Payroll() {
                         name="position"
                         value={employeeForm.position}
                         onChange={handleInputChange}
-                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.position ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                       >
@@ -605,7 +605,7 @@ export function Payroll() {
                         name="department"
                         value={employeeForm.department}
                         onChange={handleInputChange}
-                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.department ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                       >
@@ -640,7 +640,7 @@ export function Payroll() {
                           name="salary"
                           value={employeeForm.salary}
                           onChange={handleInputChange}
-                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 text-sm font-medium ${
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm font-medium ${
                             errors.salary ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                           }`}
                           placeholder="0"
@@ -660,7 +660,7 @@ export function Payroll() {
                         name="status"
                         value={employeeForm.status}
                         onChange={handleInputChange}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm"
                       >
                         <option value="Full-time">Full-time</option>
                         <option value="Part-time">Part-time</option>
@@ -680,7 +680,7 @@ export function Payroll() {
                       name="lastPayment"
                       value={employeeForm.lastPayment}
                       onChange={handleInputChange}
-                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                         errors.lastPayment ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                       }`}
                     />
@@ -718,7 +718,7 @@ export function Payroll() {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-gradient-to-r from-orange-600 to-amber-700 text-white rounded-md hover:from-orange-700 hover:to-amber-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-md hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                     disabled={isLoading}
                   >
                     {isLoading ? (

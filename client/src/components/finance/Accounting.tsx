@@ -479,7 +479,7 @@ export function Accounting() {
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900">Accounts Payable</h3>
                 <button 
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold rounded-lg hover:from-emerald-700 hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl"
                   onClick={() => setShowInvoiceModal(true)}
                 >
                   <Plus className="h-5 w-5 mr-2" />
@@ -548,7 +548,7 @@ export function Accounting() {
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900">Accounts Receivable</h3>
                 <button 
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl"
                   onClick={() => setShowReceivableModal(true)}
                 >
                   <Plus className="h-5 w-5 mr-2" />
@@ -876,7 +876,7 @@ export function Accounting() {
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-start justify-center p-2 sm:p-4">
           <div className="relative mx-auto w-full max-w-2xl my-4 sm:my-8 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
             {/* Header with gradient background */}
-            <div className="bg-gradient-to-r from-emerald-600 to-teal-700 px-4 sm:px-6 py-3 sm:py-4">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-4 sm:px-6 py-3 sm:py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <div className="bg-white bg-opacity-20 rounded-lg p-1.5 sm:p-2">
@@ -884,7 +884,7 @@ export function Accounting() {
                   </div>
                   <div>
                     <h3 className="text-lg sm:text-xl font-bold text-white">Add New Invoice</h3>
-                    <p className="text-emerald-100 text-xs sm:text-sm hidden sm:block">Add a new vendor invoice to accounts payable</p>
+                    <p className="text-blue-100 text-xs sm:text-sm hidden sm:block">Add a new vendor invoice to accounts payable</p>
                   </div>
                 </div>
                 <button
@@ -902,7 +902,7 @@ export function Accounting() {
                 {/* Vendor Information Section */}
                 <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
                   <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
-                    <Building className="h-4 w-4 mr-2 text-emerald-600" />
+                    <Building className="h-4 w-4 mr-2 text-blue-600" />
                     Vendor Information
                   </h4>
                   <div>
@@ -915,7 +915,7 @@ export function Accounting() {
                         setInvoiceForm(prev => ({ ...prev, vendor: e.target.value }));
                         clearFieldError('vendor');
                       }}
-                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white text-sm ${
+                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                         errors.vendor ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                       }`}
                     >
@@ -952,7 +952,7 @@ export function Accounting() {
                             setInvoiceForm(prev => ({ ...prev, amount: e.target.value }));
                             clearFieldError('amount');
                           }}
-                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-sm font-medium ${
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm font-medium ${
                             errors.amount ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                           }`}
                           placeholder="0.00"
@@ -972,7 +972,7 @@ export function Accounting() {
                           setInvoiceForm(prev => ({ ...prev, dueDate: e.target.value }));
                           clearFieldError('dueDate');
                         }}
-                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white text-sm ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.dueDate ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                       />
@@ -987,7 +987,7 @@ export function Accounting() {
                     <select
                       value={invoiceForm.status}
                       onChange={(e) => setInvoiceForm(prev => ({ ...prev, status: e.target.value as 'Pending' | 'Overdue' | 'Paid' }))}
-                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white text-sm"
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm"
                     >
                       <option value="Pending">Pending Payment</option>
                       <option value="Overdue">Overdue</option>
@@ -1014,7 +1014,7 @@ export function Accounting() {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-md hover:from-emerald-700 hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-md hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -1041,7 +1041,7 @@ export function Accounting() {
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-start justify-center p-2 sm:p-4">
           <div className="relative mx-auto w-full max-w-2xl my-4 sm:my-8 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
             {/* Header with gradient background */}
-            <div className="bg-gradient-to-r from-purple-600 to-indigo-700 px-4 sm:px-6 py-3 sm:py-4">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-4 sm:px-6 py-3 sm:py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <div className="bg-white bg-opacity-20 rounded-lg p-1.5 sm:p-2">
@@ -1049,7 +1049,7 @@ export function Accounting() {
                   </div>
                   <div>
                     <h3 className="text-lg sm:text-xl font-bold text-white">New Receivable Invoice</h3>
-                    <p className="text-purple-100 text-xs sm:text-sm hidden sm:block">Create a new customer invoice for accounts receivable</p>
+                    <p className="text-blue-100 text-xs sm:text-sm hidden sm:block">Create a new customer invoice for accounts receivable</p>
                   </div>
                 </div>
                 <button
@@ -1067,7 +1067,7 @@ export function Accounting() {
                 {/* Customer Information Section */}
                 <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
                   <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
-                    <Users className="h-4 w-4 mr-2 text-purple-600" />
+                    <Users className="h-4 w-4 mr-2 text-blue-600" />
                     Customer Information
                   </h4>
                   <div>
@@ -1080,7 +1080,7 @@ export function Accounting() {
                         setReceivableForm(prev => ({ ...prev, customer: e.target.value }));
                         clearFieldError('customer');
                       }}
-                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 bg-white text-sm ${
+                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                         errors.customer ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                       }`}
                     >
@@ -1096,7 +1096,7 @@ export function Accounting() {
                 {/* Invoice Details Section */}
                 <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
                   <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
-                    <DollarSign className="h-4 w-4 mr-2 text-indigo-600" />
+                    <DollarSign className="h-4 w-4 mr-2 text-blue-600" />
                     Invoice Details
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -1117,7 +1117,7 @@ export function Accounting() {
                             setReceivableForm(prev => ({ ...prev, amount: e.target.value }));
                             clearFieldError('amount');
                           }}
-                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 text-sm font-medium ${
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm font-medium ${
                             errors.amount ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                           }`}
                           placeholder="0.00"
@@ -1137,7 +1137,7 @@ export function Accounting() {
                           setReceivableForm(prev => ({ ...prev, dueDate: e.target.value }));
                           clearFieldError('dueDate');
                         }}
-                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 bg-white text-sm ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.dueDate ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                       />
@@ -1152,7 +1152,7 @@ export function Accounting() {
                     <select
                       value={receivableForm.status}
                       onChange={(e) => setReceivableForm(prev => ({ ...prev, status: e.target.value as 'Outstanding' | 'Partial' | 'Paid' }))}
-                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 bg-white text-sm"
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm"
                     >
                       <option value="Outstanding">Outstanding</option>
                       <option value="Partial">Partial Payment</option>
@@ -1179,7 +1179,7 @@ export function Accounting() {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-700 text-white rounded-md hover:from-purple-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-md hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                     disabled={isLoading}
                   >
                     {isLoading ? (
