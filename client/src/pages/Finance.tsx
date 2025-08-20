@@ -39,6 +39,7 @@ export function Finance() {
   // Render content based on current route
   const renderContent = () => {
     console.log('Finance page location:', location); // Debug log
+    console.log('Rendering FinanceOverview component'); // Debug log
     
     if (location === '/finance' || location === '/finance/') {
       return <FinanceOverview />;

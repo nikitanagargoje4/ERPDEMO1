@@ -28,11 +28,16 @@ export function FinanceOverview() {
   const [financeData, setFinanceData] = useState<FinanceData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  console.log('FinanceOverview component mounted'); // Debug log
+
   useEffect(() => {
     const fetchFinanceData = async () => {
       try {
+        console.log('Fetching finance data...'); // Debug log
         const response = await fetch('/data/finance-data.json');
+        console.log('Response status:', response.status); // Debug log
         const data = await response.json();
+        console.log('Finance data loaded:', data); // Debug log
         setFinanceData(data);
       } catch (error) {
         console.error('Error fetching finance data:', error);
@@ -45,8 +50,10 @@ export function FinanceOverview() {
   }, []);
 
   if (loading) {
+    console.log('FinanceOverview showing loading state'); // Debug log
     return (
       <div className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Finance Overview - Loading...</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-white rounded-lg shadow-sm p-6 animate-pulse">
@@ -61,8 +68,10 @@ export function FinanceOverview() {
   }
 
   if (!financeData) {
+    console.log('FinanceOverview showing error state'); // Debug log
     return (
       <div className="text-center py-12">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Finance Overview - Error</h2>
         <p className="text-gray-500">Unable to load finance data</p>
       </div>
     );
@@ -70,8 +79,11 @@ export function FinanceOverview() {
 
   const { overview, monthlyData, departmentExpenses } = financeData;
 
+  console.log('FinanceOverview rendering main content'); // Debug log
+
   return (
     <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Finance Overview</h2>
       {/* Financial summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-lg shadow-sm p-6">
