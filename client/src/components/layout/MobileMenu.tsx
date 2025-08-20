@@ -10,10 +10,9 @@ interface MobileMenuProps {
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   return (
-    <Transition show={isOpen} as={Fragment}>
+    <Transition show={isOpen}>
       <Dialog as="div" className="relative z-50 lg:hidden" onClose={onClose}>
         <Transition.Child
-          as={Fragment}
           enter="transition-opacity ease-in-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -26,7 +25,6 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
         <div className="fixed inset-0 flex z-40">
           <Transition.Child
-            as={Fragment}
             enter="transition ease-in-out duration-300 transform"
             enterFrom="-translate-x-full"
             enterTo="translate-x-0"
@@ -36,7 +34,6 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           >
             <Dialog.Panel className="relative flex-1 flex flex-col max-w-xs w-full bg-white">
               <Transition.Child
-                as={Fragment}
                 enter="ease-in-out duration-300"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"

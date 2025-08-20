@@ -1,29 +1,18 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  createContext,
-  useContext,
-  Fragment,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-  ElementType,
-} from 'react';
+import { createContext, useContext, useEffect, useRef, useState, ElementType, ReactNode, Fragment } from 'react';
 
-interface TransitionContextProps {
+interface TransitionContextType {
   parent: {
     show: boolean;
-    appear?: boolean;
-    isInitialRender?: boolean;
+    appear: boolean;
+    isInitialRender: boolean;
   };
 }
 
-const TransitionContext = createContext<TransitionContextProps>({
+const TransitionContext = createContext<TransitionContextType>({
   parent: {
-    show: false,
+    show: true,
     appear: false,
-    isInitialRender: true,
+    isInitialRender: false,
   },
 });
 
@@ -35,18 +24,27 @@ function useIsInitialRender() {
   return isInitialRender.current;
 }
 
-export interface TransitionProps {
+interface TransitionProps {
   as?: ElementType;
   show?: boolean;
   appear?: boolean;
   unmount?: boolean;
   children: ReactNode;
-  enter?: string;
-  enterFrom?: string;
-  enterTo?: string;
-  leave?: string;
-  leaveFrom?: string;
-  leaveTo?: string;
+  [key: string]: any;
+}
+
+function filterProps(props: Record<string, any>, Component: ElementType) {
+  if (Component === Fragment) {
+    // Only allow 'key' and 'children' for Fragment
+    const { key, children, ...rest } = props;
+    const filtered: Record<string, any> = {};
+    if (key !== undefined) filtered.key = key;
+    return filtered;
+  }
+  
+  // Filter out Replit-specific metadata props
+  const { 'data-replit-metadata': _, ...filtered } = props;
+  return filtered;
 }
 
 export function Transition({
@@ -68,8 +66,23 @@ export function Transition({
 
   if (unmount && state === 'exit') return null;
 
-  // Filter out invalid props for Fragment
-  const componentProps = Component === Fragment ? {} : props;
+  const filteredProps = filterProps(props, Component);
+
+  if (Component === Fragment) {
+    return (
+      <TransitionContext.Provider
+        value={{
+          parent: {
+            show,
+            appear,
+            isInitialRender,
+          },
+        }}
+      >
+        <Fragment>{children}</Fragment>
+      </TransitionContext.Provider>
+    );
+  }
 
   return (
     <TransitionContext.Provider
@@ -81,7 +94,7 @@ export function Transition({
         },
       }}
     >
-      <Component {...componentProps}>{children}</Component>
+      <Component {...filteredProps}>{children}</Component>
     </TransitionContext.Provider>
   );
 }
@@ -177,10 +190,24 @@ Transition.Child = function TransitionChild({
 
   if (unmount && displayState === 'exit' && !styles.includes(leave)) return null;
 
+  const filteredProps = filterProps(props, Component);
+
+  if (Component === Fragment) {
+    return (
+      <Fragment>
+        {typeof children === 'function' ? children({ state: displayState }) : children}
+      </Fragment>
+    );
+  }
+
   return (
-    <div ref={transitionRef} className={styles} {...props}>
+    <Component 
+      ref={transitionRef} 
+      className={styles} 
+      {...filteredProps}
+    >
       {typeof children === 'function' ? children({ state: displayState }) : children}
-    </div>
+    </Component>
   );
 };
 
@@ -188,6 +215,7 @@ interface DialogProps {
   as?: ElementType;
   open?: boolean;
   onClose: () => void;
+  children?: ReactNode;
   [key: string]: any;
 }
 
@@ -211,27 +239,55 @@ export function Dialog({
       document.body.style.overflow = '';
     };
   }, [open]);
-  
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && open) {
+      if (e.key === 'Escape') {
         onClose();
       }
     };
-    
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+
+    if (open) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, [open, onClose]);
-  
+
+  const filteredProps = filterProps(props, Component);
+
+  if (Component === Fragment) {
+    return <Fragment>{children}</Fragment>;
+  }
+
   return (
-    <Transition as={Fragment} show={open} {...props}>
+    <Component {...filteredProps} onClick={(e: React.MouseEvent) => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    }}>
       {children}
-    </Transition>
+    </Component>
   );
 }
 
-Dialog.Panel = function DialogPanel({ className = '', ...props }) {
-  return <div className={`${className}`} {...props} />;
+Dialog.Panel = function DialogPanel({ 
+  as = 'div', 
+  children, 
+  ...props 
+}: { 
+  as?: ElementType; 
+  children: ReactNode; 
+  [key: string]: any; 
+}) {
+  const Component = as;
+  const filteredProps = filterProps(props, Component);
+  
+  if (Component === Fragment) {
+    return <Fragment>{children}</Fragment>;
+  }
+  
+  return <Component {...filteredProps}>{children}</Component>;
 };
-
-Transition.Root = Transition;
