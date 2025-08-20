@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Route, Link, useLocation } from 'wouter';
 import { DollarSign, TrendingUp, Users, FileText, PieChart } from 'lucide-react';
 
@@ -11,14 +11,22 @@ import { FinanceReports } from '../components/finance/FinanceReports';
 
 export function Finance() {
   const [location] = useLocation();
-  const [activeTab, setActiveTab] = useState(
-    location === '/finance' ? 'overview' :
-    location.includes('/accounting') ? 'accounting' :
-    location.includes('/budgeting') ? 'budgeting' :
-    location.includes('/payroll') ? 'payroll' :
-    location.includes('/reports') ? 'reports' :
-    'overview'
-  );
+  const [activeTab, setActiveTab] = useState('overview');
+
+  // Update active tab based on current location
+  useEffect(() => {
+    if (location === '/finance' || location === '/finance/') {
+      setActiveTab('overview');
+    } else if (location.includes('/accounting')) {
+      setActiveTab('accounting');
+    } else if (location.includes('/budgeting')) {
+      setActiveTab('budgeting');
+    } else if (location.includes('/payroll')) {
+      setActiveTab('payroll');
+    } else if (location.includes('/reports')) {
+      setActiveTab('reports');
+    }
+  }, [location]);
 
   const tabs = [
     { id: 'overview', name: 'Overview', href: '/finance', icon: DollarSign },
@@ -27,6 +35,23 @@ export function Finance() {
     { id: 'payroll', name: 'Payroll', href: '/finance/payroll', icon: Users },
     { id: 'reports', name: 'Reports', href: '/finance/reports', icon: TrendingUp },
   ];
+
+  // Render content based on current route
+  const renderContent = () => {
+    if (location === '/finance' || location === '/finance/') {
+      return <FinanceOverview />;
+    } else if (location === '/finance/accounting') {
+      return <Accounting />;
+    } else if (location === '/finance/budgeting') {
+      return <Budgeting />;
+    } else if (location === '/finance/payroll') {
+      return <Payroll />;
+    } else if (location === '/finance/reports') {
+      return <FinanceReports />;
+    }
+    // Default to overview
+    return <FinanceOverview />;
+  };
 
   return (
     <div className="space-y-6">
@@ -37,13 +62,12 @@ export function Finance() {
               {tabs.map((tab) => (
                 <Link
                   key={tab.id}
-                  to={tab.href}
+                  href={tab.href}
                   className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === tab.id
                       ? 'border-primary-500 text-primary-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   } flex items-center`}
-                  onClick={() => setActiveTab(tab.id)}
                 >
                   <tab.icon className="mr-2 h-5 w-5" />
                   {tab.name}
@@ -54,11 +78,10 @@ export function Finance() {
         </div>
       </div>
 
-      <Route path="/finance" component={FinanceOverview} />
-      <Route path="/finance/accounting" component={Accounting} />
-      <Route path="/finance/budgeting" component={Budgeting} />
-      <Route path="/finance/payroll" component={Payroll} />
-      <Route path="/finance/reports" component={FinanceReports} />
+      {/* Render the active component */}
+      <div className="bg-gray-50 min-h-screen p-6">
+        {renderContent()}
+      </div>
     </div>
   );
 }
