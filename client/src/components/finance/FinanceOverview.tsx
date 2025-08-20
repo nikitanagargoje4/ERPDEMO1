@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   BarChart,
   Bar,
@@ -13,32 +14,62 @@ import {
 import { ArrowUpRight, ArrowDownRight, TrendingUp } from 'lucide-react';
 import { DashboardCard } from '../dashboard/DashboardCard';
 
-// Mock data
-const revenueData = [
-  { month: 'Jan', revenue: 135000, expenses: 115000 },
-  { month: 'Feb', revenue: 142000, expenses: 118000 },
-  { month: 'Mar', revenue: 158000, expenses: 120000 },
-  { month: 'Apr', revenue: 165000, expenses: 125000 },
-  { month: 'May', revenue: 175000, expenses: 132000 },
-  { month: 'Jun', revenue: 190000, expenses: 135000 },
-  { month: 'Jul', revenue: 185000, expenses: 134000 },
-  { month: 'Aug', revenue: 195000, expenses: 138000 },
-  { month: 'Sep', revenue: 210000, expenses: 142000 },
-  { month: 'Oct', revenue: 220000, expenses: 144000 },
-  { month: 'Nov', revenue: 225000, expenses: 146000 },
-  { month: 'Dec', revenue: 248000, expenses: 152000 },
-];
-
-const departmentExpenses = [
-  { name: 'Sales', value: 450000 },
-  { name: 'Marketing', value: 320000 },
-  { name: 'Operations', value: 510000 },
-  { name: 'R&D', value: 290000 },
-  { name: 'HR', value: 190000 },
-  { name: 'IT', value: 250000 },
-];
+interface FinanceData {
+  overview: {
+    totalRevenue: { current: number; previous: number; changePercent: number };
+    totalExpenses: { current: number; previous: number; changePercent: number };
+    netProfit: { current: number; previous: number; changePercent: number };
+  };
+  monthlyData: Array<{ month: string; revenue: number; expenses: number }>;
+  departmentExpenses: Array<{ department: string; amount: number }>;
+}
 
 export function FinanceOverview() {
+  const [financeData, setFinanceData] = useState<FinanceData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFinanceData = async () => {
+      try {
+        const response = await fetch('/data/finance-data.json');
+        const data = await response.json();
+        setFinanceData(data);
+      } catch (error) {
+        console.error('Error fetching finance data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFinanceData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-white rounded-lg shadow-sm p-6 animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!financeData) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">Unable to load finance data</p>
+      </div>
+    );
+  }
+
+  const { overview, monthlyData, departmentExpenses } = financeData;
+
   return (
     <div className="space-y-6">
       {/* Financial summary cards */}
@@ -47,14 +78,14 @@ export function FinanceOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">Total Revenue (YTD)</p>
-              <p className="text-2xl font-semibold mt-1">$2,248,000</p>
+              <p className="text-2xl font-semibold mt-1">${overview.totalRevenue.current.toLocaleString()}</p>
             </div>
             <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
               <ArrowUpRight className="h-6 w-6 text-green-600" />
             </div>
           </div>
           <div className="mt-4 flex items-center">
-            <span className="text-green-600 text-sm font-medium">+12.4%</span>
+            <span className="text-green-600 text-sm font-medium">+{overview.totalRevenue.changePercent}%</span>
             <span className="text-gray-500 text-sm ml-2">vs last year</span>
           </div>
         </div>
@@ -62,14 +93,14 @@ export function FinanceOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">Total Expenses (YTD)</p>
-              <p className="text-2xl font-semibold mt-1">$1,650,000</p>
+              <p className="text-2xl font-semibold mt-1">${overview.totalExpenses.current.toLocaleString()}</p>
             </div>
             <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center">
               <ArrowDownRight className="h-6 w-6 text-red-600" />
             </div>
           </div>
           <div className="mt-4 flex items-center">
-            <span className="text-red-600 text-sm font-medium">+8.2%</span>
+            <span className="text-red-600 text-sm font-medium">+{overview.totalExpenses.changePercent}%</span>
             <span className="text-gray-500 text-sm ml-2">vs last year</span>
           </div>
         </div>
@@ -77,14 +108,14 @@ export function FinanceOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">Net Profit (YTD)</p>
-              <p className="text-2xl font-semibold mt-1">$598,000</p>
+              <p className="text-2xl font-semibold mt-1">${overview.netProfit.current.toLocaleString()}</p>
             </div>
             <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
               <TrendingUp className="h-6 w-6 text-blue-600" />
             </div>
           </div>
           <div className="mt-4 flex items-center">
-            <span className="text-green-600 text-sm font-medium">+15.3%</span>
+            <span className="text-green-600 text-sm font-medium">+{overview.netProfit.changePercent}%</span>
             <span className="text-gray-500 text-sm ml-2">vs last year</span>
           </div>
         </div>
@@ -96,7 +127,7 @@ export function FinanceOverview() {
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={revenueData}
+                data={monthlyData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -128,7 +159,7 @@ export function FinanceOverview() {
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={departmentExpenses}
+                data={departmentExpenses.map(item => ({ name: item.department, value: item.amount }))}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
