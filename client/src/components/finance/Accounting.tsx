@@ -479,10 +479,10 @@ export function Accounting() {
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900">Accounts Payable</h3>
                 <button 
-                  className="btn btn-primary"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold rounded-lg hover:from-emerald-700 hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 shadow-lg hover:shadow-xl"
                   onClick={() => setShowInvoiceModal(true)}
                 >
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="h-5 w-5 mr-2" />
                   Add Invoice
                 </button>
               </div>
@@ -873,131 +873,165 @@ export function Accounting() {
 
       {/* Add Invoice Modal */}
       {showInvoiceModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-medium text-gray-900">Add New Invoice</h3>
-              <button
-                onClick={() => setShowInvoiceModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="h-6 w-6" />
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-start justify-center p-2 sm:p-4">
+          <div className="relative mx-auto w-full max-w-2xl my-4 sm:my-8 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
+            {/* Header with gradient background */}
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-700 px-4 sm:px-6 py-3 sm:py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className="bg-white bg-opacity-20 rounded-lg p-1.5 sm:p-2">
+                    <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Add New Invoice</h3>
+                    <p className="text-emerald-100 text-xs sm:text-sm hidden sm:block">Add a new vendor invoice to accounts payable</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowInvoiceModal(false)}
+                  className="text-white hover:text-gray-200 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg p-1.5 transition-all duration-200"
+                >
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
+              </div>
             </div>
 
-            <form onSubmit={handleInvoiceSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Vendor <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={invoiceForm.vendor}
-                  onChange={(e) => {
-                    setInvoiceForm(prev => ({ ...prev, vendor: e.target.value }));
-                    clearFieldError('vendor');
-                  }}
-                  className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                    errors.vendor ? 'border-red-300' : 'border-gray-300'
-                  }`}
-                >
-                  <option value="">Select a vendor</option>
-                  {vendors.map(vendor => (
-                    <option key={vendor} value={vendor}>{vendor}</option>
-                  ))}
-                </select>
-                {errors.vendor && <p className="mt-1 text-sm text-red-600">{errors.vendor}</p>}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Amount <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className="text-gray-500 sm:text-sm">$</span>
+            {/* Form content */}
+            <div className="px-4 sm:px-6 py-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <form onSubmit={handleInvoiceSubmit} className="space-y-4 sm:space-y-5">
+                {/* Vendor Information Section */}
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <Building className="h-4 w-4 mr-2 text-emerald-600" />
+                    Vendor Information
+                  </h4>
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                      Vendor Name <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={invoiceForm.vendor}
+                      onChange={(e) => {
+                        setInvoiceForm(prev => ({ ...prev, vendor: e.target.value }));
+                        clearFieldError('vendor');
+                      }}
+                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white text-sm ${
+                        errors.vendor ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                      }`}
+                    >
+                      <option value="">Select a vendor</option>
+                      {vendors.map(vendor => (
+                        <option key={vendor} value={vendor}>{vendor}</option>
+                      ))}
+                    </select>
+                    {errors.vendor && <p className="mt-1 text-xs text-red-600">{errors.vendor}</p>}
                   </div>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={invoiceForm.amount}
-                    onChange={(e) => {
-                      setInvoiceForm(prev => ({ ...prev, amount: e.target.value }));
-                      clearFieldError('amount');
-                    }}
-                    className={`block w-full pl-7 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.amount ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="0.00"
-                  />
                 </div>
-                {errors.amount && <p className="mt-1 text-sm text-red-600">{errors.amount}</p>}
-              </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Due Date <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="date"
-                  value={invoiceForm.dueDate}
-                  onChange={(e) => {
-                    setInvoiceForm(prev => ({ ...prev, dueDate: e.target.value }));
-                    clearFieldError('dueDate');
-                  }}
-                  className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                    errors.dueDate ? 'border-red-300' : 'border-gray-300'
-                  }`}
-                />
-                {errors.dueDate && <p className="mt-1 text-sm text-red-600">{errors.dueDate}</p>}
-              </div>
+                {/* Invoice Details Section */}
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <DollarSign className="h-4 w-4 mr-2 text-green-600" />
+                    Invoice Details
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="bg-white rounded-md p-3 border border-gray-300">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Invoice Amount <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span className="text-gray-500 text-sm">$</span>
+                        </div>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={invoiceForm.amount}
+                          onChange={(e) => {
+                            setInvoiceForm(prev => ({ ...prev, amount: e.target.value }));
+                            clearFieldError('amount');
+                          }}
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-sm font-medium ${
+                            errors.amount ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
+                          placeholder="0.00"
+                        />
+                      </div>
+                      {errors.amount && <p className="mt-1 text-xs text-red-600">{errors.amount}</p>}
+                    </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Status <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={invoiceForm.status}
-                  onChange={(e) => setInvoiceForm(prev => ({ ...prev, status: e.target.value as 'Pending' | 'Overdue' | 'Paid' }))}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Overdue">Overdue</option>
-                  <option value="Paid">Paid</option>
-                </select>
-              </div>
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Due Date <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        value={invoiceForm.dueDate}
+                        onChange={(e) => {
+                          setInvoiceForm(prev => ({ ...prev, dueDate: e.target.value }));
+                          clearFieldError('dueDate');
+                        }}
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white text-sm ${
+                          errors.dueDate ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.dueDate && <p className="mt-1 text-xs text-red-600">{errors.dueDate}</p>}
+                    </div>
+                  </div>
 
-              {errors.submit && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                  {errors.submit}
+                  <div className="mt-3 sm:mt-4">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                      Payment Status <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={invoiceForm.status}
+                      onChange={(e) => setInvoiceForm(prev => ({ ...prev, status: e.target.value as 'Pending' | 'Overdue' | 'Paid' }))}
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white text-sm"
+                    >
+                      <option value="Pending">Pending Payment</option>
+                      <option value="Overdue">Overdue</option>
+                      <option value="Paid">Paid</option>
+                    </select>
+                  </div>
                 </div>
-              )}
 
-              <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={() => setShowInvoiceModal(false)}
-                  className="btn btn-outline"
-                  disabled={isLoading}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Saving...
-                    </>
-                  ) : (
-                    'Save Invoice'
-                  )}
-                </button>
-              </div>
-            </form>
+                {errors.submit && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+                    <span className="text-sm font-medium">{errors.submit}</span>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowInvoiceModal(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 font-medium text-sm"
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-md hover:from-emerald-700 hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2 inline-block"></div>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="h-4 w-4 mr-2 inline-block" />
+                        Save Invoice
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
