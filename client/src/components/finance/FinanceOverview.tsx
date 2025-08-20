@@ -34,7 +34,7 @@ export function FinanceOverview() {
     const fetchFinanceData = async () => {
       try {
         console.log('Fetching finance data...'); // Debug log
-        const response = await fetch('/data/finance-data.json');
+        const response = await fetch('/api/finance-data');
         console.log('Response status:', response.status); // Debug log
         const data = await response.json();
         console.log('Finance data loaded:', data); // Debug log

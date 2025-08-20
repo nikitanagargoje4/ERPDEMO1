@@ -55,6 +55,7 @@ function App() {
   return (
     <Layout>
       <Route path="/" component={Dashboard} />
+      <Route path="/finance" component={Finance} />
       <Route path="/finance/:rest*" component={Finance} />
       <Route path="/human-resources/:rest*" component={HumanResources} />
       <Route path="/supply-chain/:rest*" component={SupplyChain} />

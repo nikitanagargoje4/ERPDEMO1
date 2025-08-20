@@ -41,8 +41,15 @@ export function Finance() {
     console.log('Finance page location:', location); // Debug log
     console.log('Rendering FinanceOverview component'); // Debug log
     
+    // Simple test to ensure component is working
     if (location === '/finance' || location === '/finance/') {
-      return <FinanceOverview />;
+      return (
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h1 className="text-2xl font-bold mb-4">Finance Overview Page</h1>
+          <p className="text-gray-600 mb-4">This is a test to confirm the page is loading.</p>
+          <FinanceOverview />
+        </div>
+      );
     } else if (location === '/finance/accounting') {
       return <Accounting />;
     } else if (location === '/finance/budgeting') {
@@ -53,7 +60,13 @@ export function Finance() {
       return <FinanceReports />;
     }
     // Default to overview
-    return <FinanceOverview />;
+    return (
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h1 className="text-2xl font-bold mb-4">Finance Overview Page (Default)</h1>
+        <p className="text-gray-600 mb-4">This is a test to confirm the page is loading.</p>
+        <FinanceOverview />
+      </div>
+    );
   };
 
   return (
