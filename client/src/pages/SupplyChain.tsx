@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { ShoppingCart, Package, Truck, Users, BarChart } from 'lucide-react';
 import { SupplyChainOverview } from '../components/supply-chain/SupplyChainOverview/index';
 import { Procurement } from '../components/supply-chain/Procurement/index';
@@ -8,13 +8,13 @@ import { Vendors } from '../components/supply-chain/Vendors/index';
 import { Logistics } from '../components/supply-chain/Logistics/index';
 
 export function SupplyChain() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/supply-chain' ? 'overview' :
-    location.pathname.includes('/procurement') ? 'procurement' :
-    location.pathname.includes('/inventory') ? 'inventory' :
-    location.pathname.includes('/vendors') ? 'vendors' :
-    location.pathname.includes('/logistics') ? 'logistics' :
+    location === '/supply-chain' ? 'overview' :
+    location.includes('/procurement') ? 'procurement' :
+    location.includes('/inventory') ? 'inventory' :
+    location.includes('/vendors') ? 'vendors' :
+    location.includes('/logistics') ? 'logistics' :
     'overview'
   );
 
@@ -52,13 +52,11 @@ export function SupplyChain() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<SupplyChainOverview />} />
-        <Route path="/procurement" element={<Procurement />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/vendors" element={<Vendors />} />
-        <Route path="/logistics" element={<Logistics />} />
-      </Routes>
+      <Route path="/supply-chain" component={SupplyChainOverview} />
+      <Route path="/supply-chain/procurement" component={Procurement} />
+      <Route path="/supply-chain/inventory" component={Inventory} />
+      <Route path="/supply-chain/vendors" component={Vendors} />
+      <Route path="/supply-chain/logistics" component={Logistics} />
     </div>
   );
 }

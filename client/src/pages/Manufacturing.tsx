@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { Factory, Settings, CheckSquare, PenTool as Tool, BarChart } from 'lucide-react';
 import { ManufacturingOverview } from '../components/manufacturing/ManufacturingOverview';
 import { Production } from '../components/manufacturing/Production';
@@ -8,13 +8,13 @@ import { Maintenance } from '../components/manufacturing/Maintenance';
 import { Planning } from '../components/manufacturing/Planning';
 
 export function Manufacturing() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/manufacturing' ? 'overview' :
-    location.pathname.includes('/production') ? 'production' :
-    location.pathname.includes('/quality') ? 'quality' :
-    location.pathname.includes('/maintenance') ? 'maintenance' :
-    location.pathname.includes('/planning') ? 'planning' :
+    location === '/manufacturing' ? 'overview' :
+    location.includes('/production') ? 'production' :
+    location.includes('/quality') ? 'quality' :
+    location.includes('/maintenance') ? 'maintenance' :
+    location.includes('/planning') ? 'planning' :
     'overview'
   );
 
@@ -52,13 +52,11 @@ export function Manufacturing() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<ManufacturingOverview />} />
-        <Route path="/production" element={<Production />} />
-        <Route path="/quality" element={<QualityControl />} />
-        <Route path="/maintenance" element={<Maintenance />} />
-        <Route path="/planning" element={<Planning />} />
-      </Routes>
+      <Route path="/manufacturing" component={ManufacturingOverview} />
+      <Route path="/manufacturing/production" component={Production} />
+      <Route path="/manufacturing/quality" component={QualityControl} />
+      <Route path="/manufacturing/maintenance" component={Maintenance} />
+      <Route path="/manufacturing/planning" component={Planning} />
     </div>
   );
 }

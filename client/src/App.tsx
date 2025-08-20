@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Route, useLocation } from 'wouter';
 import { Layout } from './components/layout/Layout';
 import { Dashboard } from './pages/Dashboard';
 import { Finance } from './pages/Finance';
@@ -15,7 +15,7 @@ import { LoginPage } from './pages/LoginPage';
 function App() {
   const [loading, setLoading] = useState(true);
   const { isAuthenticated, checkAuth } = useAuthStore();
-  const location = useLocation();
+  const [location] = useLocation();
 
   useEffect(() => {
     // Simulate authentication check
@@ -29,7 +29,7 @@ function App() {
   
   // Change page title based on current route
   useEffect(() => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const pathSegments = location.split('/').filter(Boolean);
     const currentPage = pathSegments.length > 0
       ? pathSegments[0].charAt(0).toUpperCase() + pathSegments[0].slice(1)
       : 'Dashboard';
@@ -54,16 +54,14 @@ function App() {
 
   return (
     <Layout>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/finance/*" element={<Finance />} />
-        <Route path="/human-resources/*" element={<HumanResources />} />
-        <Route path="/supply-chain/*" element={<SupplyChain />} />
-        <Route path="/crm/*" element={<CustomerRelationship />} />
-        <Route path="/manufacturing/*" element={<Manufacturing />} />
-        <Route path="/projects/*" element={<ProjectManagement />} />
-        <Route path="/settings/*" element={<Settings />} />
-      </Routes>
+      <Route path="/" component={Dashboard} />
+      <Route path="/finance/:rest*" component={Finance} />
+      <Route path="/human-resources/:rest*" component={HumanResources} />
+      <Route path="/supply-chain/:rest*" component={SupplyChain} />
+      <Route path="/crm/:rest*" component={CustomerRelationship} />
+      <Route path="/manufacturing/:rest*" component={Manufacturing} />
+      <Route path="/projects/:rest*" component={ProjectManagement} />
+      <Route path="/settings/:rest*" component={Settings} />
     </Layout>
   );
 }

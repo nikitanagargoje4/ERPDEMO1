@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { Bell, Search, Menu, X, User, Settings, LogOut, HelpCircle } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 
@@ -15,7 +15,7 @@ export function Header({ onMenuButtonClick }: HeaderProps) {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuthStore();
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -171,7 +171,7 @@ export function Header({ onMenuButtonClick }: HeaderProps) {
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate('/settings/profile');
+                    setLocation('/settings/profile');
                     setUserMenuOpen(false);
                   }}
                 >
@@ -183,7 +183,7 @@ export function Header({ onMenuButtonClick }: HeaderProps) {
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate('/settings');
+                    setLocation('/settings');
                     setUserMenuOpen(false);
                   }}
                 >

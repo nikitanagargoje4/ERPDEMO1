@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { HeartHandshake, Users, DollarSign, Megaphone, HeadphonesIcon } from 'lucide-react';
 import { CRMOverview } from '../components/crm/CRMOverview';
 import { Customers } from '../components/crm/Customers';
@@ -8,13 +8,13 @@ import { Marketing } from '../components/crm/Marketing';
 import { Support } from '../components/crm/Support';
 
 export function CustomerRelationship() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/crm' ? 'overview' :
-    location.pathname.includes('/customers') ? 'customers' :
-    location.pathname.includes('/sales') ? 'sales' :
-    location.pathname.includes('/marketing') ? 'marketing' :
-    location.pathname.includes('/support') ? 'support' :
+    location === '/crm' ? 'overview' :
+    location.includes('/customers') ? 'customers' :
+    location.includes('/sales') ? 'sales' :
+    location.includes('/marketing') ? 'marketing' :
+    location.includes('/support') ? 'support' :
     'overview'
   );
 
@@ -52,13 +52,11 @@ export function CustomerRelationship() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<CRMOverview />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/sales" element={<Sales />} />
-        <Route path="/marketing" element={<Marketing />} />
-        <Route path="/support" element={<Support />} />
-      </Routes>
+      <Route path="/crm" component={CRMOverview} />
+      <Route path="/crm/customers" component={Customers} />
+      <Route path="/crm/sales" component={Sales} />
+      <Route path="/crm/marketing" component={Marketing} />
+      <Route path="/crm/support" component={Support} />
     </div>
   );
 }

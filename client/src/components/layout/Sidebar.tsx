@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'wouter';
 import { 
   Home, 
   DollarSign, 
@@ -93,7 +93,7 @@ const navigation = [
 ];
 
 export function Sidebar() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const { user } = useAuthStore();
   
@@ -112,7 +112,7 @@ export function Sidebar() {
     
     // Auto-open if a child route is active
     if (item.children) {
-      return item.children.some(child => location.pathname.startsWith(child.href));
+      return item.children.some(child => location.startsWith(child.href));
     }
     
     return false;
@@ -139,25 +139,23 @@ export function Sidebar() {
         {navigation.map((item) => {
           const isOpen = isMenuOpen(item);
           const isChildActive = item.children?.some(
-            child => location.pathname === child.href
+            child => location === child.href
           );
           
           return (
             <div key={item.name}>
               {!item.children ? (
-                <NavLink
-                  to={item.href}
-                  className={({ isActive }) => 
-                    `flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
-                      isActive
-                        ? 'bg-primary-50 text-primary-600'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                    }`
-                  }
+                <Link
+                  href={item.href}
+                  className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
+                    location === item.href
+                      ? 'bg-primary-50 text-primary-600'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
                 >
                   <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
                   {item.name}
-                </NavLink>
+                </Link>
               ) : (
                 <>
                   <button
@@ -184,19 +182,17 @@ export function Sidebar() {
                   {isOpen && (
                     <div className="mt-1 ml-8 space-y-1">
                       {item.children.map((child) => (
-                        <NavLink
+                        <Link
                           key={child.name}
-                          to={child.href}
-                          className={({ isActive }) =>
-                            `block py-2 pr-4 pl-3 text-sm transition-colors duration-150 ${
-                              isActive
-                                ? 'text-primary-600 font-medium'
-                                : 'text-gray-500 hover:text-gray-900'
-                            }`
-                          }
+                          href={child.href}
+                          className={`block py-2 pr-4 pl-3 text-sm transition-colors duration-150 ${
+                            location === child.href
+                              ? 'text-primary-600 font-medium'
+                              : 'text-gray-500 hover:text-gray-900'
+                          }`}
                         >
                           {child.name}
-                        </NavLink>
+                        </Link>
                       ))}
                     </div>
                   )}

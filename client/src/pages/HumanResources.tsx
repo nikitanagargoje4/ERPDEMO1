@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { Users, UserPlus, Award, BookOpen, LineChart } from 'lucide-react';
 
 // Import HR sub-pages
@@ -10,13 +10,13 @@ import { Training } from '../components/hr/Training';
 import { Performance } from '../components/hr/Performance';
 
 export function HumanResources() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/human-resources' ? 'overview' :
-    location.pathname.includes('/employees') ? 'employees' :
-    location.pathname.includes('/recruitment') ? 'recruitment' :
-    location.pathname.includes('/training') ? 'training' :
-    location.pathname.includes('/performance') ? 'performance' :
+    location === '/human-resources' ? 'overview' :
+    location.includes('/employees') ? 'employees' :
+    location.includes('/recruitment') ? 'recruitment' :
+    location.includes('/training') ? 'training' :
+    location.includes('/performance') ? 'performance' :
     'overview'
   );
 
@@ -54,13 +54,11 @@ export function HumanResources() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<HROverview />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/recruitment" element={<Recruitment />} />
-        <Route path="/training" element={<Training />} />
-        <Route path="/performance" element={<Performance />} />
-      </Routes>
+      <Route path="/human-resources" component={HROverview} />
+      <Route path="/human-resources/employees" component={Employees} />
+      <Route path="/human-resources/recruitment" component={Recruitment} />
+      <Route path="/human-resources/training" component={Training} />
+      <Route path="/human-resources/performance" component={Performance} />
     </div>
   );
 }

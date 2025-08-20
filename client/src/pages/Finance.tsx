@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { DollarSign, TrendingUp, Users, FileText, PieChart } from 'lucide-react';
 
 // Finance sub-pages
@@ -10,13 +10,13 @@ import { Payroll } from '../components/finance/Payroll';
 import { FinanceReports } from '../components/finance/FinanceReports';
 
 export function Finance() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/finance' ? 'overview' :
-    location.pathname.includes('/accounting') ? 'accounting' :
-    location.pathname.includes('/budgeting') ? 'budgeting' :
-    location.pathname.includes('/payroll') ? 'payroll' :
-    location.pathname.includes('/reports') ? 'reports' :
+    location === '/finance' ? 'overview' :
+    location.includes('/accounting') ? 'accounting' :
+    location.includes('/budgeting') ? 'budgeting' :
+    location.includes('/payroll') ? 'payroll' :
+    location.includes('/reports') ? 'reports' :
     'overview'
   );
 
@@ -54,13 +54,11 @@ export function Finance() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<FinanceOverview />} />
-        <Route path="/accounting" element={<Accounting />} />
-        <Route path="/budgeting" element={<Budgeting />} />
-        <Route path="/payroll" element={<Payroll />} />
-        <Route path="/reports" element={<FinanceReports />} />
-      </Routes>
+      <Route path="/finance" component={FinanceOverview} />
+      <Route path="/finance/accounting" component={Accounting} />
+      <Route path="/finance/budgeting" component={Budgeting} />
+      <Route path="/finance/payroll" component={Payroll} />
+      <Route path="/finance/reports" component={FinanceReports} />
     </div>
   );
 }

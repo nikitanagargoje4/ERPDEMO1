@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { FolderKanban, ListTodo, Calendar, Users, BarChart } from 'lucide-react';
 import { ProjectOverview } from '../components/projects/ProjectOverview/index';
 import { ActiveProjects } from '../components/projects/ActiveProjects/index';
@@ -8,13 +8,13 @@ import { ProjectResources } from '../components/projects/ProjectResources/index'
 import { ProjectCalendar } from '../components/projects/ProjectCalendar/index';
 
 export function ProjectManagement() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/projects' ? 'overview' :
-    location.pathname.includes('/active') ? 'active' :
-    location.pathname.includes('/tasks') ? 'tasks' :
-    location.pathname.includes('/resources') ? 'resources' :
-    location.pathname.includes('/calendar') ? 'calendar' :
+    location === '/projects' ? 'overview' :
+    location.includes('/active') ? 'active' :
+    location.includes('/tasks') ? 'tasks' :
+    location.includes('/resources') ? 'resources' :
+    location.includes('/calendar') ? 'calendar' :
     'overview'
   );
 
@@ -52,13 +52,11 @@ export function ProjectManagement() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<ProjectOverview />} />
-        <Route path="/active" element={<ActiveProjects />} />
-        <Route path="/tasks" element={<ProjectTasks />} />
-        <Route path="/resources" element={<ProjectResources />} />
-        <Route path="/calendar" element={<ProjectCalendar />} />
-      </Routes>
+      <Route path="/projects" component={ProjectOverview} />
+      <Route path="/projects/active" component={ActiveProjects} />
+      <Route path="/projects/tasks" component={ProjectTasks} />
+      <Route path="/projects/resources" component={ProjectResources} />
+      <Route path="/projects/calendar" component={ProjectCalendar} />
     </div>
   );
 }

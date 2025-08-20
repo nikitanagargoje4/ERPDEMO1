@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link, useLocation } from 'wouter';
 import { Settings as SettingsIcon, User, Shield, Bell, Database, Globe, Palette, HelpCircle } from 'lucide-react';
 import { GeneralSettings } from '../components/settings/GeneralSettings';
 import { ProfileSettings } from '../components/settings/ProfileSettings';
@@ -8,13 +8,13 @@ import { NotificationSettings } from '../components/settings/NotificationSetting
 import { IntegrationSettings } from '../components/settings/IntegrationSettings';
 
 export function Settings() {
-  const location = useLocation();
+  const [location] = useLocation();
   const [activeTab, setActiveTab] = useState(
-    location.pathname === '/settings' ? 'general' :
-    location.pathname.includes('/profile') ? 'profile' :
-    location.pathname.includes('/security') ? 'security' :
-    location.pathname.includes('/notifications') ? 'notifications' :
-    location.pathname.includes('/integrations') ? 'integrations' :
+    location === '/settings' ? 'general' :
+    location.includes('/profile') ? 'profile' :
+    location.includes('/security') ? 'security' :
+    location.includes('/notifications') ? 'notifications' :
+    location.includes('/integrations') ? 'integrations' :
     'general'
   );
 
@@ -52,13 +52,11 @@ export function Settings() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<GeneralSettings />} />
-        <Route path="/profile" element={<ProfileSettings />} />
-        <Route path="/security" element={<SecuritySettings />} />
-        <Route path="/notifications" element={<NotificationSettings />} />
-        <Route path="/integrations" element={<IntegrationSettings />} />
-      </Routes>
+      <Route path="/settings" component={GeneralSettings} />
+      <Route path="/settings/profile" component={ProfileSettings} />
+      <Route path="/settings/security" component={SecuritySettings} />
+      <Route path="/settings/notifications" component={NotificationSettings} />
+      <Route path="/settings/integrations" component={IntegrationSettings} />
     </div>
   );
 }
