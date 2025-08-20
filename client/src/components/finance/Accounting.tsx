@@ -401,10 +401,10 @@ export function Accounting() {
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900">General Ledger</h3>
                 <button 
-                  className="btn btn-primary"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl"
                   onClick={() => setShowNewEntryModal(true)}
                 >
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="h-5 w-5 mr-2" />
                   New Entry
                 </button>
               </div>
@@ -605,209 +605,266 @@ export function Accounting() {
 
       {/* New Entry Modal */}
       {showNewEntryModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-medium text-gray-900">New Accounting Entry</h3>
-              <button
-                onClick={() => setShowNewEntryModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="h-6 w-6" />
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+          <div className="relative mx-auto w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+            {/* Header with gradient background */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-8 py-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-white bg-opacity-20 rounded-lg p-2">
+                    <FileText className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">New Accounting Entry</h3>
+                    <p className="text-blue-100 text-sm">Create a new journal entry for the general ledger</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowNewEntryModal(false)}
+                  className="text-white hover:text-gray-200 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg p-2 transition-all duration-200"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
-            <form onSubmit={handleEntrySubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Date <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    value={entryForm.date}
-                    onChange={(e) => {
-                      setEntryForm(prev => ({ ...prev, date: e.target.value }));
-                      clearFieldError('date');
-                    }}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.date ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                  />
-                  {errors.date && <p className="mt-1 text-sm text-red-600">{errors.date}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Category <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={entryForm.category}
-                    onChange={(e) => setEntryForm(prev => ({ ...prev, category: e.target.value }))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                  >
-                    {categories.map(category => (
-                      <option key={category} value={category}>{category}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Account Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={entryForm.accountName}
-                    onChange={(e) => {
-                      setEntryForm(prev => ({ ...prev, accountName: e.target.value }));
-                      clearFieldError('accountName');
-                    }}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.accountName ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter account name"
-                  />
-                  {errors.accountName && <p className="mt-1 text-sm text-red-600">{errors.accountName}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Account Code <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={entryForm.accountCode}
-                    onChange={(e) => {
-                      setEntryForm(prev => ({ ...prev, accountCode: e.target.value }));
-                      clearFieldError('accountCode');
-                    }}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.accountCode ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter account code"
-                  />
-                  {errors.accountCode && <p className="mt-1 text-sm text-red-600">{errors.accountCode}</p>}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  rows={3}
-                  value={entryForm.description}
-                  onChange={(e) => {
-                    setEntryForm(prev => ({ ...prev, description: e.target.value }));
-                    clearFieldError('description');
-                  }}
-                  className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                    errors.description ? 'border-red-300' : 'border-gray-300'
-                  }`}
-                  placeholder="Enter transaction description"
-                />
-                {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Debit Amount</label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">$</span>
+            {/* Form content */}
+            <div className="px-8 py-6">
+              <form onSubmit={handleEntrySubmit} className="space-y-8">
+                {/* Transaction Details Section */}
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <Calendar className="h-5 w-5 mr-2 text-blue-600" />
+                    Transaction Details
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <Calendar className="h-4 w-4 inline mr-1" />
+                        Transaction Date <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        value={entryForm.date}
+                        onChange={(e) => {
+                          setEntryForm(prev => ({ ...prev, date: e.target.value }));
+                          clearFieldError('date');
+                        }}
+                        className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white ${
+                          errors.date ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.date && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.date}</p>}
                     </div>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      value={entryForm.debitAmount}
-                      onChange={(e) => {
-                        setEntryForm(prev => ({ ...prev, debitAmount: e.target.value, creditAmount: '' }));
-                        clearFieldError('debitAmount');
-                        clearFieldError('amounts');
-                      }}
-                      className={`block w-full pl-7 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                        errors.debitAmount || errors.amounts ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                      placeholder="0.00"
-                    />
-                  </div>
-                  {errors.debitAmount && <p className="mt-1 text-sm text-red-600">{errors.debitAmount}</p>}
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Credit Amount</label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">$</span>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <Building className="h-4 w-4 inline mr-1" />
+                        Account Category <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        value={entryForm.category}
+                        onChange={(e) => setEntryForm(prev => ({ ...prev, category: e.target.value }))}
+                        className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      >
+                        {categories.map(category => (
+                          <option key={category} value={category}>{category}</option>
+                        ))}
+                      </select>
                     </div>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      value={entryForm.creditAmount}
-                      onChange={(e) => {
-                        setEntryForm(prev => ({ ...prev, creditAmount: e.target.value, debitAmount: '' }));
-                        clearFieldError('creditAmount');
-                        clearFieldError('amounts');
-                      }}
-                      className={`block w-full pl-7 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                        errors.creditAmount || errors.amounts ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                      placeholder="0.00"
-                    />
                   </div>
-                  {errors.creditAmount && <p className="mt-1 text-sm text-red-600">{errors.creditAmount}</p>}
                 </div>
-              </div>
 
-              {errors.amounts && <p className="text-sm text-red-600">{errors.amounts}</p>}
+                {/* Account Information Section */}
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <Building className="h-5 w-5 mr-2 text-green-600" />
+                    Account Information
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Account Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={entryForm.accountName}
+                        onChange={(e) => {
+                          setEntryForm(prev => ({ ...prev, accountName: e.target.value }));
+                          clearFieldError('accountName');
+                        }}
+                        className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white ${
+                          errors.accountName ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="e.g., Cash, Accounts Receivable, Equipment"
+                      />
+                      {errors.accountName && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.accountName}</p>}
+                    </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Reference Number</label>
-                <input
-                  type="text"
-                  value={entryForm.referenceNumber}
-                  onChange={(e) => setEntryForm(prev => ({ ...prev, referenceNumber: e.target.value }))}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Enter reference number"
-                />
-              </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Account Code <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={entryForm.accountCode}
+                        onChange={(e) => {
+                          setEntryForm(prev => ({ ...prev, accountCode: e.target.value }));
+                          clearFieldError('accountCode');
+                        }}
+                        className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white ${
+                          errors.accountCode ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="e.g., 1000, 1200, 2000"
+                      />
+                      {errors.accountCode && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.accountCode}</p>}
+                    </div>
+                  </div>
 
-              {errors.submit && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                  {errors.submit}
+                  <div className="mt-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Transaction Description <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={entryForm.description}
+                      onChange={(e) => {
+                        setEntryForm(prev => ({ ...prev, description: e.target.value }));
+                        clearFieldError('description');
+                      }}
+                      className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white resize-none ${
+                        errors.description ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                      }`}
+                      placeholder="Provide a detailed description of this transaction..."
+                    />
+                    {errors.description && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.description}</p>}
+                  </div>
                 </div>
-              )}
 
-              <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={() => setShowNewEntryModal(false)}
-                  className="btn btn-outline"
-                  disabled={isLoading}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Saving...
-                    </>
-                  ) : (
-                    'Save Entry'
+                {/* Amount Details Section */}
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <DollarSign className="h-5 w-5 mr-2 text-emerald-600" />
+                    Amount Details
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-white rounded-lg p-4 border-2 border-dashed border-gray-300">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                        <TrendingUp className="h-4 w-4 mr-1 text-green-600" />
+                        Debit Amount
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <span className="text-gray-500 text-lg font-medium">$</span>
+                        </div>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={entryForm.debitAmount}
+                          onChange={(e) => {
+                            setEntryForm(prev => ({ ...prev, debitAmount: e.target.value, creditAmount: '' }));
+                            clearFieldError('debitAmount');
+                            clearFieldError('amounts');
+                          }}
+                          className={`block w-full pl-10 pr-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg font-medium ${
+                            errors.debitAmount || errors.amounts ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
+                          placeholder="0.00"
+                        />
+                      </div>
+                      {errors.debitAmount && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.debitAmount}</p>}
+                    </div>
+
+                    <div className="bg-white rounded-lg p-4 border-2 border-dashed border-gray-300">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                        <TrendingUp className="h-4 w-4 mr-1 text-red-600" />
+                        Credit Amount
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <span className="text-gray-500 text-lg font-medium">$</span>
+                        </div>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={entryForm.creditAmount}
+                          onChange={(e) => {
+                            setEntryForm(prev => ({ ...prev, creditAmount: e.target.value, debitAmount: '' }));
+                            clearFieldError('creditAmount');
+                            clearFieldError('amounts');
+                          }}
+                          className={`block w-full pl-10 pr-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg font-medium ${
+                            errors.creditAmount || errors.amounts ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
+                          placeholder="0.00"
+                        />
+                      </div>
+                      {errors.creditAmount && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.creditAmount}</p>}
+                    </div>
+                  </div>
+
+                  {errors.amounts && (
+                    <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
+                      <p className="text-sm text-red-600 flex items-center font-medium">
+                        <span className="mr-2">⚠</span>
+                        {errors.amounts}
+                      </p>
+                    </div>
                   )}
-                </button>
-              </div>
-            </form>
+
+                  <div className="mt-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Reference Number
+                    </label>
+                    <input
+                      type="text"
+                      value={entryForm.referenceNumber}
+                      onChange={(e) => setEntryForm(prev => ({ ...prev, referenceNumber: e.target.value }))}
+                      className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      placeholder="Optional reference number or document ID"
+                    />
+                  </div>
+                </div>
+
+                {errors.submit && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center">
+                    <span className="mr-3 text-xl">❌</span>
+                    <span className="font-medium">{errors.submit}</span>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowNewEntryModal(false)}
+                    className="px-8 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 font-medium"
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-lg hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2 inline-block"></div>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="h-5 w-5 mr-2 inline-block" />
+                        Create Entry
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
