@@ -87,7 +87,7 @@ export function Employees() {
     email: '',
     department: '',
     position: '',
-    status: 'Active' as const,
+    status: 'Active' as 'Active' | 'Inactive' | 'On Leave' | 'Terminated',
     startDate: '',
     manager: ''
   });
