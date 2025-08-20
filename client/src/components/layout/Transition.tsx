@@ -68,6 +68,9 @@ export function Transition({
 
   if (unmount && state === 'exit') return null;
 
+  // Filter out invalid props for Fragment
+  const componentProps = Component === Fragment ? {} : props;
+
   return (
     <TransitionContext.Provider
       value={{
@@ -78,7 +81,7 @@ export function Transition({
         },
       }}
     >
-      <Component {...props}>{children}</Component>
+      <Component {...componentProps}>{children}</Component>
     </TransitionContext.Provider>
   );
 }

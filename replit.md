@@ -2,6 +2,15 @@
 
 This is a comprehensive Enterprise Resource Planning (ERP) system built with modern web technologies. The application provides a centralized platform for managing various business functions including finance, human resources, supply chain, customer relationship management, manufacturing, project management, and system settings. The system features a modular architecture with dedicated sections for each business domain, enabling organizations to streamline their operations through a unified interface.
 
+## Recent Updates
+
+**Finance Dashboard Implementation (January 2025)**
+- Created responsive Finance Overview dashboard with real-time data visualization
+- Implemented JSON-based data fetching for financial metrics (revenue, expenses, profit)
+- Added interactive charts: Revenue vs Expenses line chart and Department Expenses bar chart
+- Successfully migrated from Bolt to Replit environment with wouter routing system
+- All navigation and component rendering now fully functional
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
