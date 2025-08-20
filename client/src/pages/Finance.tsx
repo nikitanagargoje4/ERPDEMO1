@@ -38,6 +38,8 @@ export function Finance() {
 
   // Render content based on current route
   const renderContent = () => {
+    console.log('Finance page location:', location); // Debug log
+    
     if (location === '/finance' || location === '/finance/') {
       return <FinanceOverview />;
     } else if (location === '/finance/accounting') {
