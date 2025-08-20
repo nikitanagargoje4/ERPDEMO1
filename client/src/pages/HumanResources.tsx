@@ -54,11 +54,11 @@ export function HumanResources() {
         </div>
       </div>
 
-      <Route path="/human-resources" component={HROverview} />
-      <Route path="/human-resources/employees" component={Employees} />
-      <Route path="/human-resources/recruitment" component={Recruitment} />
-      <Route path="/human-resources/training" component={Training} />
-      <Route path="/human-resources/performance" component={Performance} />
+      {location === '/human-resources' && <HROverview />}
+      {location === '/human-resources/employees' && <Employees />}
+      {location === '/human-resources/recruitment' && <Recruitment />}
+      {location === '/human-resources/training' && <Training />}
+      {location === '/human-resources/performance' && <Performance />}
     </div>
   );
 }

@@ -41,6 +41,8 @@ export function HROverview() {
   const openPositions = 12;
   const activeRecruitments = 8;
 
+  console.log('HROverview component is rendering');
+
   return (
     <div className="space-y-6">
       {/* Summary Cards */}
