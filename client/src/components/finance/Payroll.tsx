@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DollarSign, Users, Clock, Calendar, Download, Filter, Plus, X } from 'lucide-react';
+import { DollarSign, Users, Clock, Calendar, Download, Filter, Plus, X, UserPlus, Mail, Briefcase } from 'lucide-react';
 import { DashboardCard } from '../dashboard/DashboardCard';
 
 interface Employee {
@@ -367,10 +367,10 @@ export function Payroll() {
             </button>
             
             <button 
-              className="btn btn-primary"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-700 text-white font-semibold rounded-lg hover:from-orange-700 hover:to-amber-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 shadow-lg hover:shadow-xl"
               onClick={() => setShowAddEmployeeModal(true)}
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-5 w-5 mr-2" />
               Add Employee
             </button>
           </div>
@@ -496,205 +496,246 @@ export function Payroll() {
 
       {/* Add Employee Modal */}
       {showAddEmployeeModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-medium text-gray-900">Add New Employee</h3>
-              <button
-                onClick={() => setShowAddEmployeeModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="h-6 w-6" />
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-start justify-center p-2 sm:p-4">
+          <div className="relative mx-auto w-full max-w-3xl my-4 sm:my-8 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
+            {/* Header with gradient background */}
+            <div className="bg-gradient-to-r from-orange-600 to-amber-700 px-4 sm:px-6 py-3 sm:py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className="bg-white bg-opacity-20 rounded-lg p-1.5 sm:p-2">
+                    <UserPlus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Add New Employee</h3>
+                    <p className="text-orange-100 text-xs sm:text-sm hidden sm:block">Add a new employee to the payroll system</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowAddEmployeeModal(false)}
+                  className="text-white hover:text-gray-200 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg p-1.5 transition-all duration-200"
+                >
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={employeeForm.name}
-                    onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.name ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter full name"
-                  />
-                  {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={employeeForm.email}
-                    onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.email ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter email address"
-                  />
-                  {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="position" className="block text-sm font-medium text-gray-700">
-                    Position <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="position"
-                    name="position"
-                    value={employeeForm.position}
-                    onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.position ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                  >
-                    <option value="">Select a position</option>
-                    {positions.map(position => (
-                      <option key={position} value={position}>{position}</option>
-                    ))}
-                  </select>
-                  {errors.position && <p className="mt-1 text-sm text-red-600">{errors.position}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="department" className="block text-sm font-medium text-gray-700">
-                    Department <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="department"
-                    name="department"
-                    value={employeeForm.department}
-                    onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.department ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                  >
-                    <option value="">Select a department</option>
-                    {departments.map(department => (
-                      <option key={department} value={department}>{department}</option>
-                    ))}
-                  </select>
-                  {errors.department && <p className="mt-1 text-sm text-red-600">{errors.department}</p>}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="salary" className="block text-sm font-medium text-gray-700">
-                    Annual Salary <span className="text-red-500">*</span>
-                  </label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">$</span>
+            {/* Form content */}
+            <div className="px-4 sm:px-6 py-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                {/* Personal Information Section */}
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <Users className="h-4 w-4 mr-2 text-orange-600" />
+                    Personal Information
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div>
+                      <label htmlFor="name" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Full Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={employeeForm.name}
+                        onChange={handleInputChange}
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                          errors.name ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="Enter full name"
+                      />
+                      {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
                     </div>
-                    <input
-                      type="number"
-                      id="salary"
-                      name="salary"
-                      value={employeeForm.salary}
-                      onChange={handleInputChange}
-                      className={`block w-full pl-7 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                        errors.salary ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                      placeholder="0"
-                      min="0"
-                      step="1000"
-                    />
+
+                    <div>
+                      <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        <Mail className="h-3 w-3 inline mr-1" />
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={employeeForm.email}
+                        onChange={handleInputChange}
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                          errors.email ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="Enter email address"
+                      />
+                      {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+                    </div>
                   </div>
-                  {errors.salary && <p className="mt-1 text-sm text-red-600">{errors.salary}</p>}
                 </div>
 
-                <div>
-                  <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                    Employment Status <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="status"
-                    name="status"
-                    value={employeeForm.status}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
+                {/* Job Information Section */}
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <Briefcase className="h-4 w-4 mr-2 text-amber-600" />
+                    Job Information
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div>
+                      <label htmlFor="position" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Position <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        id="position"
+                        name="position"
+                        value={employeeForm.position}
+                        onChange={handleInputChange}
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                          errors.position ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                      >
+                        <option value="">Select a position</option>
+                        {positions.map(position => (
+                          <option key={position} value={position}>{position}</option>
+                        ))}
+                      </select>
+                      {errors.position && <p className="mt-1 text-xs text-red-600">{errors.position}</p>}
+                    </div>
+
+                    <div>
+                      <label htmlFor="department" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Department <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        id="department"
+                        name="department"
+                        value={employeeForm.department}
+                        onChange={handleInputChange}
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                          errors.department ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                        }`}
+                      >
+                        <option value="">Select a department</option>
+                        {departments.map(department => (
+                          <option key={department} value={department}>{department}</option>
+                        ))}
+                      </select>
+                      {errors.department && <p className="mt-1 text-xs text-red-600">{errors.department}</p>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Compensation Details Section */}
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <DollarSign className="h-4 w-4 mr-2 text-green-600" />
+                    Compensation Details
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="bg-white rounded-md p-3 border border-gray-300">
+                      <label htmlFor="salary" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Annual Salary <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span className="text-gray-500 text-sm">$</span>
+                        </div>
+                        <input
+                          type="number"
+                          id="salary"
+                          name="salary"
+                          value={employeeForm.salary}
+                          onChange={handleInputChange}
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 text-sm font-medium ${
+                            errors.salary ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                          }`}
+                          placeholder="0"
+                          min="0"
+                          step="1000"
+                        />
+                      </div>
+                      {errors.salary && <p className="mt-1 text-xs text-red-600">{errors.salary}</p>}
+                    </div>
+
+                    <div>
+                      <label htmlFor="status" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                        Employment Status <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        id="status"
+                        name="status"
+                        value={employeeForm.status}
+                        onChange={handleInputChange}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm"
+                      >
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 sm:mt-4">
+                    <label htmlFor="lastPayment" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
+                      <Calendar className="h-3 w-3 inline mr-1" />
+                      Last Payment Date <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      id="lastPayment"
+                      name="lastPayment"
+                      value={employeeForm.lastPayment}
+                      onChange={handleInputChange}
+                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 bg-white text-sm ${
+                        errors.lastPayment ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
+                      }`}
+                    />
+                    {errors.lastPayment && <p className="mt-1 text-xs text-red-600">{errors.lastPayment}</p>}
+                  </div>
+                </div>
+
+                {errors.submit && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+                    <span className="text-sm font-medium">{errors.submit}</span>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowAddEmployeeModal(false);
+                      setEmployeeForm({
+                        name: '',
+                        email: '',
+                        position: '',
+                        department: '',
+                        salary: '',
+                        status: 'Full-time',
+                        lastPayment: new Date().toISOString().split('T')[0]
+                      });
+                      setErrors({});
+                    }}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 font-medium text-sm"
+                    disabled={isLoading}
                   >
-                    <option value="Full-time">Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Contract">Contract</option>
-                  </select>
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-gradient-to-r from-orange-600 to-amber-700 text-white rounded-md hover:from-orange-700 hover:to-amber-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2 inline-block"></div>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus className="h-4 w-4 mr-2 inline-block" />
+                        Save Employee
+                      </>
+                    )}
+                  </button>
                 </div>
-              </div>
-
-              <div>
-                <label htmlFor="lastPayment" className="block text-sm font-medium text-gray-700">
-                  Last Payment Date <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="date"
-                  id="lastPayment"
-                  name="lastPayment"
-                  value={employeeForm.lastPayment}
-                  onChange={handleInputChange}
-                  className={`mt-1 block w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 ${
-                    errors.lastPayment ? 'border-red-300' : 'border-gray-300'
-                  }`}
-                />
-                {errors.lastPayment && <p className="mt-1 text-sm text-red-600">{errors.lastPayment}</p>}
-              </div>
-
-              {errors.submit && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                  {errors.submit}
-                </div>
-              )}
-
-              <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowAddEmployeeModal(false);
-                    setEmployeeForm({
-                      name: '',
-                      email: '',
-                      position: '',
-                      department: '',
-                      salary: '',
-                      status: 'Full-time',
-                      lastPayment: new Date().toISOString().split('T')[0]
-                    });
-                    setErrors({});
-                  }}
-                  className="btn btn-outline"
-                  disabled={isLoading}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Saving...
-                    </>
-                  ) : (
-                    'Save Employee'
-                  )}
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       )}
