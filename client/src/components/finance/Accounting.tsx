@@ -60,18 +60,28 @@ export function Accounting() {
     category: 'Assets'
   });
 
-  const [invoiceForm, setInvoiceForm] = useState({
+  const [invoiceForm, setInvoiceForm] = useState<{
+    vendor: string;
+    amount: string;
+    dueDate: string;
+    status: 'Pending' | 'Overdue' | 'Paid';
+  }>({
     vendor: '',
     amount: '',
     dueDate: '',
-    status: 'Pending' as const
+    status: 'Pending'
   });
 
-  const [receivableForm, setReceivableForm] = useState({
+  const [receivableForm, setReceivableForm] = useState<{
+    customer: string;
+    amount: string;
+    dueDate: string;
+    status: 'Outstanding' | 'Partial' | 'Paid';
+  }>({
     customer: '',
     amount: '',
     dueDate: '',
-    status: 'Outstanding' as const
+    status: 'Outstanding'
   });
 
   // Load data from localStorage on component mount
@@ -605,42 +615,41 @@ export function Accounting() {
 
       {/* New Entry Modal */}
       {showNewEntryModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
-          <div className="relative mx-auto w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-start justify-center p-2 sm:p-4">
+          <div className="relative mx-auto w-full max-w-3xl my-4 sm:my-8 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
             {/* Header with gradient background */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-8 py-6">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-4 sm:px-6 py-3 sm:py-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="bg-white bg-opacity-20 rounded-lg p-2">
-                    <FileText className="h-6 w-6 text-white" />
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className="bg-white bg-opacity-20 rounded-lg p-1.5 sm:p-2">
+                    <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-white">New Accounting Entry</h3>
-                    <p className="text-blue-100 text-sm">Create a new journal entry for the general ledger</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-white">New Accounting Entry</h3>
+                    <p className="text-blue-100 text-xs sm:text-sm hidden sm:block">Create a new journal entry for the general ledger</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setShowNewEntryModal(false)}
-                  className="text-white hover:text-gray-200 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg p-2 transition-all duration-200"
+                  className="text-white hover:text-gray-200 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg p-1.5 transition-all duration-200"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
               </div>
             </div>
 
             {/* Form content */}
-            <div className="px-8 py-6">
-              <form onSubmit={handleEntrySubmit} className="space-y-8">
+            <div className="px-4 sm:px-6 py-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <form onSubmit={handleEntrySubmit} className="space-y-4 sm:space-y-5">
                 {/* Transaction Details Section */}
-                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <Calendar className="h-5 w-5 mr-2 text-blue-600" />
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <Calendar className="h-4 w-4 mr-2 text-blue-600" />
                     Transaction Details
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        <Calendar className="h-4 w-4 inline mr-1" />
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                         Transaction Date <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -650,22 +659,21 @@ export function Accounting() {
                           setEntryForm(prev => ({ ...prev, date: e.target.value }));
                           clearFieldError('date');
                         }}
-                        className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.date ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
                       />
-                      {errors.date && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.date}</p>}
+                      {errors.date && <p className="mt-1 text-xs text-red-600">{errors.date}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        <Building className="h-4 w-4 inline mr-1" />
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                         Account Category <span className="text-red-500">*</span>
                       </label>
                       <select
                         value={entryForm.category}
                         onChange={(e) => setEntryForm(prev => ({ ...prev, category: e.target.value }))}
-                        className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm"
                       >
                         {categories.map(category => (
                           <option key={category} value={category}>{category}</option>
@@ -676,14 +684,14 @@ export function Accounting() {
                 </div>
 
                 {/* Account Information Section */}
-                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <Building className="h-5 w-5 mr-2 text-green-600" />
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <Building className="h-4 w-4 mr-2 text-green-600" />
                     Account Information
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                         Account Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -693,16 +701,16 @@ export function Accounting() {
                           setEntryForm(prev => ({ ...prev, accountName: e.target.value }));
                           clearFieldError('accountName');
                         }}
-                        className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.accountName ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="e.g., Cash, Accounts Receivable, Equipment"
+                        placeholder="e.g., Cash, Accounts Receivable"
                       />
-                      {errors.accountName && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.accountName}</p>}
+                      {errors.accountName && <p className="mt-1 text-xs text-red-600">{errors.accountName}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                         Account Code <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -712,50 +720,49 @@ export function Accounting() {
                           setEntryForm(prev => ({ ...prev, accountCode: e.target.value }));
                           clearFieldError('accountCode');
                         }}
-                        className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white ${
+                        className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm ${
                           errors.accountCode ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="e.g., 1000, 1200, 2000"
+                        placeholder="e.g., 1000, 1200"
                       />
-                      {errors.accountCode && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.accountCode}</p>}
+                      {errors.accountCode && <p className="mt-1 text-xs text-red-600">{errors.accountCode}</p>}
                     </div>
                   </div>
 
-                  <div className="mt-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <div className="mt-3 sm:mt-4">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                       Transaction Description <span className="text-red-500">*</span>
                     </label>
                     <textarea
-                      rows={4}
+                      rows={2}
                       value={entryForm.description}
                       onChange={(e) => {
                         setEntryForm(prev => ({ ...prev, description: e.target.value }));
                         clearFieldError('description');
                       }}
-                      className={`block w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white resize-none ${
+                      className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white resize-none text-sm ${
                         errors.description ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                       }`}
-                      placeholder="Provide a detailed description of this transaction..."
+                      placeholder="Transaction description..."
                     />
-                    {errors.description && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.description}</p>}
+                    {errors.description && <p className="mt-1 text-xs text-red-600">{errors.description}</p>}
                   </div>
                 </div>
 
                 {/* Amount Details Section */}
-                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <DollarSign className="h-5 w-5 mr-2 text-emerald-600" />
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 flex items-center">
+                    <DollarSign className="h-4 w-4 mr-2 text-emerald-600" />
                     Amount Details
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-lg p-4 border-2 border-dashed border-gray-300">
-                      <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                        <TrendingUp className="h-4 w-4 mr-1 text-green-600" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="bg-white rounded-md p-3 border border-gray-300">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                         Debit Amount
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <span className="text-gray-500 text-lg font-medium">$</span>
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span className="text-gray-500 text-sm">$</span>
                         </div>
                         <input
                           type="number"
@@ -767,23 +774,22 @@ export function Accounting() {
                             clearFieldError('debitAmount');
                             clearFieldError('amounts');
                           }}
-                          className={`block w-full pl-10 pr-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg font-medium ${
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm ${
                             errors.debitAmount || errors.amounts ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                           }`}
                           placeholder="0.00"
                         />
                       </div>
-                      {errors.debitAmount && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.debitAmount}</p>}
+                      {errors.debitAmount && <p className="mt-1 text-xs text-red-600">{errors.debitAmount}</p>}
                     </div>
 
-                    <div className="bg-white rounded-lg p-4 border-2 border-dashed border-gray-300">
-                      <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                        <TrendingUp className="h-4 w-4 mr-1 text-red-600" />
+                    <div className="bg-white rounded-md p-3 border border-gray-300">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                         Credit Amount
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <span className="text-gray-500 text-lg font-medium">$</span>
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span className="text-gray-500 text-sm">$</span>
                         </div>
                         <input
                           type="number"
@@ -795,69 +801,65 @@ export function Accounting() {
                             clearFieldError('creditAmount');
                             clearFieldError('amounts');
                           }}
-                          className={`block w-full pl-10 pr-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg font-medium ${
+                          className={`block w-full pl-8 pr-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm ${
                             errors.creditAmount || errors.amounts ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
                           }`}
                           placeholder="0.00"
                         />
                       </div>
-                      {errors.creditAmount && <p className="mt-2 text-sm text-red-600 flex items-center"><span className="mr-1">⚠</span>{errors.creditAmount}</p>}
+                      {errors.creditAmount && <p className="mt-1 text-xs text-red-600">{errors.creditAmount}</p>}
                     </div>
                   </div>
 
                   {errors.amounts && (
-                    <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
-                      <p className="text-sm text-red-600 flex items-center font-medium">
-                        <span className="mr-2">⚠</span>
-                        {errors.amounts}
-                      </p>
+                    <div className="mt-3 bg-red-50 border border-red-200 rounded-md p-2">
+                      <p className="text-xs text-red-600 font-medium">{errors.amounts}</p>
                     </div>
                   )}
 
-                  <div className="mt-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <div className="mt-3 sm:mt-4">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">
                       Reference Number
                     </label>
                     <input
                       type="text"
                       value={entryForm.referenceNumber}
                       onChange={(e) => setEntryForm(prev => ({ ...prev, referenceNumber: e.target.value }))}
-                      className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
-                      placeholder="Optional reference number or document ID"
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-sm"
+                      placeholder="Optional reference number"
                     />
                   </div>
                 </div>
 
                 {errors.submit && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center">
-                    <span className="mr-3 text-xl">❌</span>
-                    <span className="font-medium">{errors.submit}</span>
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-md">
+                    <span className="text-sm font-medium">{errors.submit}</span>
                   </div>
                 )}
 
                 {/* Action buttons */}
-                <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
                   <button
                     type="button"
                     onClick={() => setShowNewEntryModal(false)}
-                    className="px-8 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 font-medium"
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 font-medium text-sm"
                     disabled={isLoading}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-lg hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-md hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                     disabled={isLoading}
                   >
                     {isLoading ? (
                       <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2 inline-block"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2 inline-block"></div>
                         Processing...
                       </>
                     ) : (
                       <>
-                        <FileText className="h-5 w-5 mr-2 inline-block" />
+                        <Plus className="h-4 w-4 mr-2 inline-block" />
                         Create Entry
                       </>
                     )}
